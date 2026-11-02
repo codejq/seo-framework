@@ -8,6 +8,12 @@ without rebuilding the frontend.
 Free and open source under the [MIT License](LICENSE), including for personal
 and commercial use.
 
+![Build your React, Vite-powered or other SPA, package it with SEO Framework, and deploy to cPanel PHP hosting. PHP serves readable public HTML before JavaScript takes over.](assets/framework-usage.png)
+
+Build your SPA, add SEO Framework, then upload the complete package to your PHP
+host. Visitors and crawlers receive public page content and metadata in the
+initial HTML response; your SPA then provides the interactive experience.
+
 The project is self-contained: all runtime code, browser helpers, example
 templates and seed data are included. Copy or extract this directory anywhere;
 no parent repository, sibling application, machine-specific path, Composer
