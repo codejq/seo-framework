@@ -1,0 +1,11 @@
+{
+  "name": "seo-framework/seo-framework",
+  "description": "Public HTML and cached JSON adapters for single-page applications on PHP hosting",
+  "type": "library",
+  "license": "MIT",
+  "require": { "php": ">=8.1", "ext-json": "*" },
+  "suggest": { "ext-curl": "Required when fetching public JSON sources" },
+  "autoload": { "psr-4": { "SeoFramework\\": "src/" } },
+  "bin": ["bin/seo.php"],
+  "scripts": { "test": ["php tests/run.php", "php tests/http.php", "php tests/standalone.php"] }
+}

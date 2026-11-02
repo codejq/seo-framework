@@ -1,0 +1,18 @@
+stages:
+  - test
+
+php:tests:
+  stage: test
+  image: php:${PHP_VERSION}-cli
+  parallel:
+    matrix:
+      - PHP_VERSION: ["8.1", "8.3", "8.5"]
+  script:
+    - find src bin tools examples tests -name '*.php' -exec php -l {} \;
+    - php tests/run.php
+    - php tests/http.php
+    - php tests/standalone.php
+    - php bin/seo.php validate examples/basic/site.php
+    - php bin/seo.php validate examples/catalog/site.php
+    - php tools/build-example.php
+    - php tools/build-example.php catalog

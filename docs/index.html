@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Learn to serve crawlable HTML alongside your single-page application with SEO Framework. Setup, PHP configuration, JSON adapters, caching, and deployment guides.">
+  <meta name="theme-color" content="#126b55">
+  <title>SEO Framework — Documentation</title>
+  <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
+  <link rel="stylesheet" href="./assets/styles.css">
+  <script src="./assets/docs.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="topbar">
+    <a class="brand" href="#overview" aria-label="SEO Framework documentation home">
+      <img src="./assets/favicon.svg" alt="" width="30" height="30">
+      <span>SEO Framework</span><span class="version">v0.1.0</span>
+    </a>
+    <nav class="topnav" aria-label="Main navigation">
+      <a href="#overview" class="selected">Documentation</a>
+      <a href="#examples">Examples</a>
+      <a href="#github-pages">Publish docs <span aria-hidden="true">↗</span></a>
+    </nav>
+    <div class="header-actions">
+      <button class="search-trigger" type="button" data-search-open hidden><span aria-hidden="true">⌕</span><span>Search docs</span><kbd>/</kbd></button>
+      <button class="menu-toggle" type="button" aria-controls="sidebar" aria-expanded="false" hidden>Menu <span aria-hidden="true">☰</span></button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar" aria-label="Documentation navigation">
+      <div class="sidebar-inner">
+        <p class="nav-label">GET STARTED</p>
+        <nav aria-label="Getting started">
+          <a href="#overview" class="active"><span class="nav-symbol" aria-hidden="true">◈</span>Introduction</a>
+          <a href="#quickstart"><span class="nav-symbol" aria-hidden="true">↗</span>Quick start</a>
+          <a href="#integration"><span class="nav-symbol" aria-hidden="true">⌘</span>Add to your SPA</a>
+        </nav>
+        <p class="nav-label">BUILD YOUR SITE</p>
+        <nav aria-label="Framework guides">
+          <a href="#configuration">Configuration</a>
+          <a href="#pages">Pages &amp; languages</a>
+          <a href="#data">Public JSON &amp; adapters</a>
+          <a href="#navigation">SPA navigation</a>
+          <a href="#cache">Cache &amp; refresh</a>
+        </nav>
+        <p class="nav-label">SHIP &amp; EXPLORE</p>
+        <nav aria-label="Deployment and reference">
+          <a href="#deployment">Deploy your application</a>
+          <a href="#examples">Working examples</a>
+          <a href="#cli">CLI reference</a>
+          <a href="#troubleshooting">Troubleshooting</a>
+          <a href="#github-pages">GitHub Pages setup</a>
+        </nav>
+        <a class="sidebar-note" href="#quickstart"><span class="status-dot" aria-hidden="true"></span><strong>Small by design.</strong><span>PHP 8.1+. No npm install.<br>No Composer install required.</span><span class="note-arrow" aria-hidden="true">Start building →</span></a>
+        <div class="sidebar-footer">Public HTML. Your frontend.</div>
+      </div>
+    </aside>
+
+    <main id="main" tabindex="-1">
+      <section class="hero doc-section" id="overview" data-title="Introduction" data-keywords="overview how it works SEO crawlable PHP requirements architecture">
+        <div class="breadcrumb">Documentation <span>/</span> Get started</div>
+        <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span> A LIGHTWEIGHT PHP COMPANION FOR YOUR SPA</p>
+        <h1>Your SPA, ready<br>to be <span>found.</span></h1>
+        <p class="hero-description">Give every public route meaningful HTML from the first response. Keep your frontend, add the metadata, and let your content speak for itself.</p>
+        <div class="hero-actions"><a class="button primary" href="#quickstart">Start the quick guide <span aria-hidden="true">→</span></a><a class="text-link" href="#integration">Explore the integration <span aria-hidden="true">↗</span></a></div>
+        <div class="capabilities"><span><span aria-hidden="true">✓</span> Framework agnostic</span><span><span aria-hidden="true">✓</span> Localized HTML</span><span><span aria-hidden="true">✓</span> Standalone deployment</span></div>
+
+        <div class="flow-demo" aria-label="How SEO Framework serves a public route">
+          <div class="flow-header"><span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span><span>One route. A complete first response.</span><span class="small-badge">HOW IT WORKS</span></div>
+          <div class="flow-body">
+            <div class="request-node"><span class="diagram-label">01 / REQUEST</span><strong><span class="http-method">GET</span> /en/about</strong><span>A visitor or crawler opens a page.</span></div>
+            <span class="flow-arrow" aria-hidden="true">→</span>
+            <div class="engine-node"><img src="./assets/favicon.svg" width="32" height="32" alt=""><strong>SEO Framework</strong><span>Template + public content</span></div>
+            <span class="flow-arrow" aria-hidden="true">→</span>
+            <div class="response-node"><span class="diagram-label">02 / RESPONSE</span><strong><span class="response-dot" aria-hidden="true"></span> HTML, ready to read</strong><span>Content · metadata · JSON-LD</span></div>
+          </div>
+          <div class="flow-caption"><span aria-hidden="true">↳</span> Your JavaScript loads next and takes over the interactive experience.</div>
+        </div>
+        <div class="intro-grid"><div><h3>Keep your frontend.</h3><p>Use your existing built SPA assets. The runtime serves semantic page content inside your app’s mount element.</p></div><div><h3>Keep content current.</h3><p>Fetch anonymous public JSON into a validated snapshot. Update dynamic pages without rebuilding the frontend.</p></div></div>
+        <div class="callout"><span class="callout-icon" aria-hidden="true">i</span><div><strong>Two hosting jobs, clearly separated</strong><p>This documentation is a static website that works on GitHub Pages. Your application’s SEO runtime requires PHP hosting. GitHub Pages does not execute PHP.</p></div></div>
+      </section>
+
+      <section class="doc-section" id="quickstart" data-title="Quick start" data-keywords="install installation setup download requirements demo run server localhost">
+        <div class="section-heading"><span class="section-number">01</span><h2>From download to first page</h2></div>
+        <p>Start with the included bilingual demo. All commands below run from the project root. You need <strong>PHP 8.1 or newer with JSON support</strong>; the basic example needs no external API.</p>
+        <ol class="steps">
+          <li><h3>Check your PHP version</h3><p>Download or clone the project into any directory, then open a terminal there.</p><div class="code-block"><div class="code-label"><span>Terminal</span></div><pre><code>php --version</code></pre></div><p class="small-text">Live JSON refresh also needs the PHP cURL extension and a working CA trust store.</p></li>
+          <li><h3>Validate and package the demo</h3><p>Validation checks configuration and rendering. The example builder adds its JavaScript assets and packages the runtime.</p><div class="code-block"><div class="code-label"><span>Terminal</span></div><pre><code>php bin/seo.php validate examples/basic/site.php
+php tools/build-example.php</code></pre></div></li>
+          <li><h3>Start the development server</h3><div class="code-block"><div class="code-label"><span>Terminal</span></div><pre><code>php -S 127.0.0.1:8088 -t examples/basic/dist tools/router.php</code></pre></div><p>Open <code>http://127.0.0.1:8088/en</code> or <code>/ar</code>. Use <strong>View Page Source</strong> to see the initial content, canonical URL, language alternates and JSON-LD. Open <code>/sitemap.xml</code> to see the four public, localized URLs.</p></li>
+        </ol>
+        <div class="callout tip"><span class="callout-icon" aria-hidden="true">✓</span><div><strong>Try it without JavaScript</strong><p>Disable JavaScript and reload. The initial response still includes readable public content. Re-enable it to see the demo SPA take over.</p></div></div>
+      </section>
+
+      <section class="doc-section" id="integration" data-title="Add to your SPA" data-keywords="React Vue Svelte integration template HTML mount root hydration dist build">
+        <div class="section-heading"><span class="section-number">02</span><h2>Add it to your SPA</h2></div>
+        <p>The framework works with built HTML and assets. Your frontend build system and visual design stay yours. Keep a clean entry template outside the generated deployment output.</p>
+        <div class="code-block"><div class="code-label"><span>Suggested project layout</span><span class="language-label">FILES</span></div><pre><code>seo-framework/
+├── bin/seo.php
+├── bootstrap.php
+├── src/
+├── assets/
+├── site.php                 # Your site configuration
+├── public/index.html        # Clean SPA entry template
+└── dist/                    # Existing frontend build + packaged runtime</code></pre></div>
+        <h3>1. Prepare the clean template</h3>
+        <p>Match <code>rootId</code> to your SPA’s mount element. An empty element works, or put <code>&lt;!-- SEO:BODY --&gt;</code> inside it. Put the optional head marker inside <code>&lt;head&gt;</code>. Preserve your real built script and stylesheet URLs.</p>
+        <div class="code-block"><div class="code-label"><span>public/index.html</span><span class="language-label">HTML</span></div><pre><code>&lt;!doctype html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+  &lt;title&gt;My Website&lt;/title&gt;
+  &lt;!-- SEO:HEAD --&gt;
+  &lt;script type="module" src="/assets/app.js"&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id="app"&gt;&lt;!-- SEO:BODY --&gt;&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></div>
+        <h3>2. Create a site configuration</h3>
+        <p>Save this as <code>site.php</code> at the project root. Change the HTTPS origin and text to match your site.</p>
+        <div class="code-block"><div class="code-label"><span>site.php</span><span class="language-label">PHP</span></div><pre><code>&lt;?php
+declare(strict_types=1);
+
+return [
+    'siteUrl' =&gt; 'https://example.com',
+    'siteName' =&gt; 'My Website',
+    'template' =&gt; 'public/index.html',
+    'rootId' =&gt; 'app',
+    'languages' =&gt; ['en'],
+    'defaultLanguage' =&gt; 'en',
+    'prefixLanguages' =&gt; false,
+    'spaRoutes' =&gt; ['/account', '/login'],
+    'pages' =&gt; [
+        [
+            'path' =&gt; '/',
+            'translations' =&gt; [
+                'en' =&gt; [
+                    'title' =&gt; 'Welcome to My Website',
+                    'description' =&gt; 'Useful tools for everyday work.',
+                    'sections' =&gt; [
+                        ['heading' =&gt; 'What we do',
+                         'text' =&gt; 'We build websites and helpful tools.'],
+                    ],
+                ],
+            ],
+        ],
+    ],
+];</code></pre></div>
+        <h3>3. Package after your frontend build</h3>
+        <p>Your frontend build must already have created <code>dist/</code> and its assets. Packaging adds PHP, metadata, public HTML snapshots and rewrite rules.</p>
+        <div class="code-block"><div class="code-label"><span>Terminal</span></div><pre><code>php bin/seo.php validate site.php
+php bin/seo.php build site.php dist</code></pre></div>
+        <p>Upload the complete <code>dist/</code> directory, including dotfiles, to a PHP-capable web root. Repeat packaging after every frontend build.</p>
+        <div class="callout warm"><span class="callout-icon" aria-hidden="true">!</span><div><strong>Plan the handoff for hydrated apps</strong><p>The fallback is generic semantic HTML. Apps that hydrate framework-generated markup need an intentional fallback handoff or a separate mount strategy. Keep the fallback’s public content consistent with the SPA.</p></div></div>
+      </section>
+
+      <section class="doc-section" id="configuration" data-title="Configuration" data-keywords="options reference siteUrl rootId includeFiles basePath settings defaults cacheVersion">
+        <div class="section-heading"><span class="section-number">03</span><h2>A configuration you can read</h2></div>
+        <p>A site config is a PHP file returning an array. File paths resolve relative to that file. Use <code>__DIR__</code> when importing adapters, and bundle their dependencies with <code>includeFiles</code>.</p>
+        <div class="table-wrap"><table><caption>Site configuration reference</caption><thead><tr><th>Option</th><th>Default / requirement</th><th>Purpose</th></tr></thead><tbody>
+          <tr><td><code>siteUrl</code></td><td>Required</td><td>Clean HTTPS origin, such as <code>https://example.com</code>. No path, credentials or query.</td></tr>
+          <tr><td><code>siteName</code></td><td><code>My Website</code></td><td>Brand name appended to page titles.</td></tr>
+          <tr><td><code>template</code></td><td><code>template.html</code></td><td>Clean frontend entry HTML.</td></tr>
+          <tr><td><code>rootId</code></td><td><code>root</code></td><td>Mount element receiving the public fallback.</td></tr>
+          <tr><td><code>languages</code></td><td><code>['en']</code></td><td>Unique supported language codes.</td></tr>
+          <tr><td><code>defaultLanguage</code></td><td><code>en</code></td><td>Fallback translation; must be in <code>languages</code>.</td></tr>
+          <tr><td><code>prefixLanguages</code></td><td><code>true</code></td><td>Use <code>/en/about</code>. Set false only for a single-language site.</td></tr>
+          <tr><td><code>rtlLanguages</code></td><td><code>['ar','fa','he','ur']</code></td><td>Languages rendered with right-to-left direction.</td></tr>
+          <tr><td><code>basePath</code></td><td>Empty string</td><td>Hosting subdirectory, such as <code>/shop</code>. Match your SPA asset base and router basename.</td></tr>
+          <tr><td><code>pages</code></td><td><code>[]</code></td><td>Explicit public page definitions. A build needs at least one public page.</td></tr>
+          <tr><td><code>spaRoutes</code></td><td><code>[]</code></td><td>Private route prefixes and their children, such as <code>/account</code>.</td></tr>
+          <tr><td><code>sources</code></td><td><code>[]</code></td><td>Named anonymous HTTPS JSON endpoints.</td></tr>
+          <tr><td><code>seed</code></td><td>Optional</td><td>JSON snapshot containing <code>generatedAt</code> in Unix seconds and a <code>data</code> map.</td></tr>
+          <tr><td><code>pageProvider</code></td><td><code>null</code></td><td>Callback <code>($data, $site)</code> returning additional public pages.</td></tr>
+          <tr><td><code>validateData</code></td><td><code>null</code></td><td>Callback that throws when source data is incomplete or invalid.</td></tr>
+          <tr><td><code>includeFiles</code></td><td><code>[]</code></td><td>Relative PHP/JSON adapter files to copy into the deployment.</td></tr>
+          <tr><td><code>refreshSeconds</code></td><td><code>3600</code></td><td>Positive integer snapshot TTL, in seconds.</td></tr>
+          <tr><td><code>retrySeconds</code></td><td><code>300</code></td><td>Positive integer backoff after a failed refresh.</td></tr>
+          <tr><td><code>cacheDirectory</code></td><td>System temp directory</td><td>Source-side cache override. Packaged builds use target-host storage.</td></tr>
+          <tr><td><code>cacheVersion</code></td><td><code>'1'</code></td><td>Bump when an adapter changes how it interprets cached data.</td></tr>
+        </tbody></table></div>
+      </section>
+
+      <section class="doc-section" id="pages" data-title="Pages & languages" data-keywords="translations Arabic RTL locale localization hreflang canonical sitemap page sections metadata schema routes">
+        <div class="section-heading"><span class="section-number">04</span><h2>One page. Every language.</h2></div>
+        <p>Each public page has a unique path and a <code>translations</code> map. The default language needs a title. The renderer adds canonical links, language alternates, social metadata and JSON-LD to each localized response.</p>
+        <div class="code-block"><div class="code-label"><span>Inside your site config</span><span class="language-label">PHP</span></div><pre><code>'languages' =&gt; ['en', 'ar'],
+'defaultLanguage' =&gt; 'en',
+'prefixLanguages' =&gt; true,
+'pages' =&gt; [
+    [
+        'path' =&gt; '/about',
+        'translations' =&gt; [
+            'en' =&gt; [
+                'title' =&gt; 'About our studio',
+                'nav' =&gt; 'About',
+                'description' =&gt; 'A small team building useful tools.',
+                'sections' =&gt; [
+                    ['heading' =&gt; 'Our work', 'items' =&gt; ['Websites', 'Applications']],
+                ],
+            ],
+            'ar' =&gt; [
+                'title' =&gt; 'عن الاستوديو',
+                'nav' =&gt; 'من نحن',
+                'description' =&gt; 'فريق صغير لبناء أدوات مفيدة.',
+            ],
+        ],
+    ],
+],</code></pre></div>
+        <div class="route-preview" data-route-preview hidden>
+          <div><span class="diagram-label">ROUTE EXPLORER</span><h3>See the localized response</h3><p>A preview of the example configuration above.</p></div>
+          <fieldset class="segmented"><legend class="visually-hidden">Preview language</legend><label><input type="radio" name="preview-language" value="en" checked><span>English</span></label><label><input type="radio" name="preview-language" value="ar"><span>العربية</span></label></fieldset>
+          <div class="route-output"><code data-route-url>https://example.com/en/about</code><dl><div><dt>Document language</dt><dd data-route-language>en</dd></div><div><dt>Direction</dt><dd data-route-direction>ltr</dd></div><div><dt>Title</dt><dd data-route-title>About our studio</dd></div></dl></div>
+        </div>
+        <h3>Page fields</h3>
+        <p>Translation fields include <code>title</code>, <code>nav</code>, <code>description</code>, <code>image</code>, <code>sections</code> and <code>structuredData</code>. A section supports a <code>heading</code>, <code>text</code> (a paragraph or list), <code>items</code> and <code>links</code> with <code>url</code> and <code>label</code>.</p>
+        <p>Page-level fields include <code>schemaType</code>, <code>ogType</code>, <code>lastModified</code> (<code>YYYY-MM-DD</code>) and <code>navigation: false</code>. Hiding a page from navigation keeps it in the sitemap. Paths accept ASCII letters, numbers, hyphens, underscores and slashes.</p>
+        <h3>Public and private routes</h3>
+        <div class="table-wrap"><table><caption>Route behavior</caption><thead><tr><th>Route</th><th>Response</th></tr></thead><tbody><tr><td>Known public page</td><td>Semantic HTML with indexable metadata.</td></tr><tr><td>Private <code>spaRoutes</code> prefix</td><td>Clean SPA template with <code>X-Robots-Tag: noindex, nofollow</code>.</td></tr><tr><td>Unknown public route</td><td>HTTP 404.</td></tr><tr><td><code>/sitemap.xml</code></td><td>All configured public pages in all supported languages.</td></tr></tbody></table></div>
+        <p class="small-text">Your application still owns authentication and access control. The gateway only renders public content.</p>
+      </section>
+
+      <section class="doc-section" id="data" data-title="Public JSON & adapters" data-keywords="API products catalog courses dynamic seed sources dataPath pageProvider includeFiles validation JSON">
+        <div class="section-heading"><span class="section-number">05</span><h2>Turn public data into pages</h2></div>
+        <p>A source fetches JSON. An adapter maps records to page definitions. The same runtime can serve products, courses, articles, services or pricing.</p>
+        <h3>Define the source</h3>
+        <p>Add these options to a working site config. Replace the placeholder endpoint before enabling live refresh.</p>
+        <div class="code-block"><div class="code-label"><span>Inside site.php</span><span class="language-label">PHP</span></div><pre><code>'seed' =&gt; 'seed.json',
+'sources' =&gt; [
+    'products' =&gt; [
+        'url' =&gt; 'https://api.example.com/public/products',
+        'dataPath' =&gt; 'data.items',
+        'type' =&gt; 'list',
+        'allowEmpty' =&gt; true,
+    ],
+],
+'includeFiles' =&gt; ['adapters/products.php'],
+'pageProvider' =&gt; require __DIR__ . '/adapters/products.php',</code></pre></div>
+        <p><code>dataPath</code> selects a nested response value using dot notation. Set <code>type</code> to <code>list</code> or <code>object</code>. Use <code>allowEmpty: false</code> if an empty response must be treated as a failed refresh.</p>
+        <h3>Map records to public pages</h3>
+        <div class="code-block"><div class="code-label"><span>adapters/products.php</span><span class="language-label">PHP</span></div><pre><code>&lt;?php
+declare(strict_types=1);
+
+return static function (array $data, array $site): array {
+    $pages = [];
+    foreach ($data['products'] ?? [] as $product) {
+        if (!is_array($product)
+            || !preg_match('/^[a-z0-9-]+$/D', $product['slug'] ?? '')
+            || !is_string($product['name'] ?? null)) {
+            throw new RuntimeException('Invalid public product.');
+        }
+        $pages[] = [
+            'path' =&gt; '/products/' . $product['slug'],
+            'translations' =&gt; [
+                $site['defaultLanguage'] =&gt; [
+                    'title' =&gt; $product['name'],
+                    'description' =&gt; $product['description'] ?? '',
+                ],
+            ],
+        ];
+    }
+    return $pages;
+};</code></pre></div>
+        <h3>Supply an initial snapshot</h3>
+        <p>The seed contains the extracted data map, not the original API response envelope. This example matches the adapter immediately above.</p>
+        <div class="code-block"><div class="code-label"><span>seed.json</span><span class="language-label">JSON</span></div><pre><code>{
+  "generatedAt": 0,
+  "data": {
+    "products": [
+      {
+        "slug": "desk-lamp",
+        "name": "Desk lamp",
+        "description": "An adjustable lamp for your workspace."
+      }
+    ]
+  }
+}</code></pre></div>
+        <p>Use <code>--offline</code> to package the seed without fetching. A zero timestamp makes it stale, so the running PHP application attempts a refresh. Offline packaging does not disable later runtime refreshes.</p>
+        <div class="callout"><span class="callout-icon" aria-hidden="true">i</span><div><strong>Only public, anonymous data</strong><p>Requests use HTTPS, verify TLS, send no user cookies or authentication headers, refuse redirects, and enforce an eight-second timeout and four-MB limit per source. Configure pagination yourself. Never use request parameters as source URLs.</p></div></div>
+        <p>Use <code>validateData</code> to reject incomplete datasets before caching. Dynamic route validation also runs before a snapshot is replaced. Deleted records disappear from pages and the sitemap after the next successful refresh.</p>
+      </section>
+
+      <section class="doc-section" id="navigation" data-title="SPA navigation" data-keywords="JavaScript browser helper updateSeo markPrivate client router metadata canonical JSON-LD">
+        <div class="section-heading"><span class="section-number">06</span><h2>Keep metadata in step</h2></div>
+        <p>The first response comes from PHP. After your SPA router changes a public route, call the optional browser helper to update metadata without reloading.</p>
+        <div class="code-block"><div class="code-label"><span>Your SPA router hook</span><span class="language-label">JAVASCRIPT</span></div><pre><code>import { updateSeo, markPrivate } from '/__seo/seo-client.mjs';
+
+// After navigating to a public page:
+updateSeo({
+  title: 'About our studio | My Website',
+  description: 'A small team building useful tools.',
+  canonical: 'https://example.com/en/about',
+  language: 'en',
+  direction: 'ltr',
+  alternates: {
+    en: 'https://example.com/en/about',
+    ar: 'https://example.com/ar/about',
+    'x-default': 'https://example.com/en/about',
+  },
+});
+
+// After navigating to an account or login route:
+markPrivate();</code></pre></div>
+        <p><code>updateSeo()</code> updates the document title, language, direction, canonical link, language alternates, social metadata and JSON-LD. Pass <code>image</code> and <code>structuredData</code> when needed; the default schema is a generic WebPage.</p>
+        <p>For subdirectory hosting, include your base path in the helper import, canonical URLs, alternate URLs, frontend asset paths and SPA router configuration.</p>
+      </section>
+
+      <section class="doc-section" id="cache" data-title="Cache & refresh" data-keywords="TTL caching retry backoff atomic snapshot cron refresh status SEO_CACHE_DIRECTORY stale outage locking">
+        <div class="section-heading"><span class="section-number">07</span><h2>Fresh data. A reliable fallback.</h2></div>
+        <p>The first request after the snapshot TTL attempts a refresh. A nonblocking writer lock lets concurrent visitors keep using the previous snapshot. A complete, valid dataset replaces the cache through an atomic rename.</p>
+        <div class="cache-flow"><div><span>01</span><strong>Reuse</strong><p>Serve a fresh snapshot.</p></div><div><span>02</span><strong>Refresh</strong><p>Fetch and validate after TTL.</p></div><div><span>03</span><strong>Recover</strong><p>On error, retain the last good data.</p></div></div>
+        <p>The defaults are a <strong>3,600-second TTL</strong> and <strong>300-second retry backoff</strong>. An error keeps the previous snapshot or bundled seed. Upstream API caching may add its own delay.</p>
+        <div class="code-block"><div class="code-label"><span>From the project root</span></div><pre><code>php bin/seo.php refresh site.php
+php bin/seo.php status site.php</code></pre></div>
+        <div class="code-block"><div class="code-label"><span>From your deployed build directory</span></div><pre><code>php seo.php refresh
+php seo.php status</code></pre></div>
+        <p><code>refresh</code> forces one refresh and exits nonzero on failure or lock contention. <code>status</code> is read-only. Running packaged <code>seo.php</code> without arguments also refreshes. There is no public HTTP force-refresh endpoint.</p>
+        <h3>Choose storage on the deployment host</h3>
+        <p>Packaged deployments reset the source-side <code>cacheDirectory</code>. By default, they use a config-specific system temp directory on the target host. Set <code>SEO_CACHE_DIRECTORY</code> to an absolute, writable private directory outside the web root for persistent storage. Configure the same value for web PHP and cron/CLI.</p>
+        <h3>Schedule a refresh</h3>
+        <p>On a Unix PHP host, add a cron command every 15 minutes. Replace the directory placeholder with your deployed path and use your host’s PHP 8.1+ CLI executable.</p>
+        <div class="code-block"><div class="code-label"><span>Cron · every 15 minutes</span></div><pre><code>*/15 * * * * cd "YOUR_DEPLOYMENT_DIRECTORY" &amp;&amp; php seo.php refresh</code></pre></div>
+        <p class="small-text">HTML responses use <code>Cache-Control: private, no-store</code>. Inspect <code>X-SEO-Generated-At</code>, <code>X-SEO-Cache</code> and <code>X-SEO-Refresh</code>; a successful CLI result or advancing timestamp confirms refresh.</p>
+      </section>
+
+      <section class="doc-section" id="deployment" data-title="Deploy your application" data-keywords="Apache LiteSpeed Nginx hosting production htaccess PHP deploy package standalone subdirectory">
+        <div class="section-heading"><span class="section-number">08</span><h2>Package once. Move it anywhere.</h2></div>
+        <p>The build contains its own runtime, configuration, adapters, clean template, seed and browser helper. The source project is not needed on your PHP server.</p>
+        <div class="code-block"><div class="code-label"><span>Generated deployment</span><span class="language-label">FILES</span></div><pre><code>dist/
+├── .htaccess                # Public routing rules
+├── .seo/                    # Private: deny all HTTP access
+│   ├── .htaccess
+│   ├── bootstrap.php
+│   ├── config.php           # Portable deployment config
+│   ├── config-source.php    # Supplied site config
+│   ├── template.html
+│   ├── seed.json
+│   ├── build.json
+│   ├── src/
+│   └── adapters/            # When listed in includeFiles
+├── __seo/                   # HTML snapshots + browser helper
+├── assets/                  # Your existing frontend assets
+├── index.html
+├── seo.php                  # PHP request entry point
+└── sitemap.xml</code></pre></div>
+        <h3>Before you go live</h3>
+        <ul class="checklist"><li>Set your real HTTPS <code>siteUrl</code> and any hosting <code>basePath</code>.</li><li>Build into a staging directory and package after the frontend build.</li><li>Upload the full output, including both <code>.htaccess</code> files.</li><li>Use package-relative imports and bundle adapter PHP/JSON files.</li><li>Verify a public page, a private route, an unknown route and the sitemap.</li><li>Confirm <code>/.seo/config.php</code> returns HTTP 403 and missing assets return 404.</li><li>Run <code>php seo.php status</code> and, for real API sources, <code>php seo.php refresh</code>.</li></ul>
+        <h3>Web server support</h3>
+        <p><strong>Apache 2.4 or LiteSpeed:</strong> enable rewrite support and <code>.htaccess</code> overrides. Existing custom policies are protected; review and merge your rules. Use <code>--replace-htaccess</code> only when you intend to replace the existing policy.</p>
+        <p><strong>Nginx:</strong> provide equivalent rules that deny the private directory, return real 404s for missing assets and send public routes to PHP-FPM through <code>seo.php</code> while preserving the original request URI.</p>
+        <p>Deploy new hashed assets before new entry points and keep older assets for clients still using them. Your hosting process owns activation and rollback.</p>
+      </section>
+
+      <section class="doc-section" id="examples" data-title="Working examples" data-keywords="basic catalog demo bilingual fixture offline example build-example">
+        <div class="section-heading"><span class="section-number">09</span><h2>Learn from a working example</h2></div>
+        <div class="example-grid"><article class="example-card"><span class="example-icon" aria-hidden="true">&lt;/&gt;</span><span class="small-badge">START HERE</span><h3>The bilingual studio</h3><p>A small interactive SPA with English and Arabic pages, public HTML and a metadata handoff.</p><dl><div><dt>Config</dt><dd><code>examples/basic/site.php</code></dd></div><div><dt>Routes</dt><dd><code>/en</code>, <code>/ar/about</code></dd></div></dl><a href="#quickstart">Run the basic example <span aria-hidden="true">→</span></a></article><article class="example-card"><span class="example-icon" aria-hidden="true">{ }</span><span class="small-badge">PUBLIC DATA</span><h3>The product catalog</h3><p>An independent template, a product adapter and a bundled JSON fixture. Packages offline.</p><dl><div><dt>Config</dt><dd><code>examples/catalog/site.php</code></dd></div><div><dt>Routes</dt><dd><code>/en/products/desk-lamp</code></dd></div></dl><a href="#catalog-commands">Run the catalog example <span aria-hidden="true">→</span></a></article></div>
+        <h3 id="catalog-commands">Run the catalog</h3>
+        <div class="code-block"><div class="code-label"><span>Terminal</span></div><pre><code>php bin/seo.php validate examples/catalog/site.php
+php tools/build-example.php catalog
+php -S 127.0.0.1:8089 -t examples/catalog/dist tools/router.php</code></pre></div>
+        <p>Open <code>http://127.0.0.1:8089/en/products/desk-lamp</code> or the Arabic route <code>/ar/products/desk-lamp</code>. The fixture makes the page render without a successful API call; replace the placeholder source URL for real refreshes. The catalog uses localized name fields rather than the simplified adapter above: keep each adapter paired with its own seed.</p>
+      </section>
+
+      <section class="doc-section" id="cli" data-title="CLI reference" data-keywords="commands flags validate build refresh status offline replace-htaccess help terminal tests">
+        <div class="section-heading"><span class="section-number">10</span><h2>A small command surface</h2></div>
+        <div class="table-wrap"><table><caption>Commands run from the project root</caption><thead><tr><th>Command</th><th>What it does</th></tr></thead><tbody><tr><td><code>php bin/seo.php validate site.php</code></td><td>Validates configuration and renders pages from the seed.</td></tr><tr><td><code>php bin/seo.php build site.php dist</code></td><td>Packages an existing frontend build directory. Refreshes configured sources first.</td></tr><tr><td><code>php bin/seo.php refresh site.php</code></td><td>Forces a single source refresh.</td></tr><tr><td><code>php bin/seo.php status site.php</code></td><td>Reports snapshot age, cache state, storage and source names.</td></tr><tr><td><code>php bin/seo.php --help</code></td><td>Shows available commands.</td></tr></tbody></table></div>
+        <p>Build flags: <code>--offline</code> packages the seed without fetching; <code>--replace-htaccess</code> explicitly replaces an existing custom rewrite policy. The output directory must already exist.</p>
+        <h3>Run the checks</h3>
+        <div class="code-block"><div class="code-label"><span>Terminal</span></div><pre><code>php tests/run.php
+php tests/http.php
+php tests/standalone.php</code></pre></div>
+        <p>With Composer installed, <code>composer test</code> runs all three. Tests cover cache behavior, rendering, real HTTP responses and relocating a package after its build inputs are removed. No external API is required.</p>
+      </section>
+
+      <section class="doc-section" id="troubleshooting" data-title="Troubleshooting" data-keywords="errors 404 503 certificate curl cainfo missing template rewrite cache refresh debug FAQ">
+        <div class="section-heading"><span class="section-number">11</span><h2>When something needs a closer look</h2></div>
+        <div class="faq-list">
+          <details><summary>Public routes return 404 on the server</summary><p>Check that your full build, including the root <code>.htaccess</code>, was uploaded. Apache/LiteSpeed needs rewrite support and overrides enabled. Nginx needs equivalent PHP fallback rules. Confirm language prefixes and any <code>basePath</code> match the requested URL.</p></details>
+          <details><summary>Validation says the template cannot be found</summary><p><code>template</code> resolves relative to your config file. Keep a clean entry HTML file at that location. Avoid using a previously rendered output as the template, and ensure <code>rootId</code> matches the mount element.</p></details>
+          <details><summary>The build refuses to replace .htaccess</summary><p>The builder protects existing custom rules. Review and merge your redirects, security and PHP settings. If replacing that file is intentional, pass <code>--replace-htaccess</code> to the build command.</p></details>
+          <details><summary>Public API refresh fails or content looks old</summary><p>Run <code>php seo.php refresh</code> in the deployed directory and inspect its error and timestamp. Verify the source URL, extracted <code>dataPath</code>, PHP cURL support, outbound connectivity, writable cache storage and adapter validation. A failed refresh deliberately preserves the previous content.</p></details>
+          <details><summary>cURL reports an issuer-certificate error</summary><p>Configure the host’s PHP CA trust store. For CLI, set <code>curl.cainfo</code> in the active <code>php.ini</code> to a maintained CA bundle. CLI and web PHP may use different configurations. Keep TLS verification enabled.</p></details>
+          <details><summary>The JavaScript app shows different content</summary><p>The semantic fallback and the SPA are separate renderers. Keep their public content aligned and call <code>updateSeo()</code> after client-side navigation. Hydrated apps need a planned handoff from the generic fallback.</p></details>
+          <details><summary>Can I host the PHP application on GitHub Pages?</summary><p>GitHub Pages serves the static documentation in <code>docs/</code>. Run the application’s PHP gateway on a PHP-capable host to get dynamic routes, cache refreshes and runtime metadata. This repository’s generated PHP package needs that server runtime.</p></details>
+        </div>
+      </section>
+
+      <section class="doc-section" id="github-pages" data-title="GitHub Pages setup" data-keywords="publish documentation docs folder static GitHub Pages hosting settings branch nojekyll subpath">
+        <div class="section-heading"><span class="section-number">12</span><h2>Give these docs a home</h2></div>
+        <p>This entire documentation website lives in <code>docs/</code>. It is plain HTML, CSS and JavaScript with relative asset URLs, so it works at a repository subpath or a custom domain. There are no external fonts, scripts or build dependencies.</p>
+        <ol class="publish-steps"><li>Commit and push the <code>docs/</code> directory to your GitHub repository, including <code>docs/.nojekyll</code>.</li><li>Open the repository’s <strong>Settings → Pages</strong>.</li><li>Under <strong>Build and deployment</strong>, choose <strong>Deploy from a branch</strong>.</li><li>Select the branch containing these files, choose <strong>/docs</strong> as the folder, then save.</li><li>Wait for the Pages deployment to finish. Open the URL shown in the repository’s Pages settings.</li></ol>
+        <p class="small-text">These steps follow <a href="https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site">GitHub’s publishing-source guide <span aria-hidden="true">↗</span></a>. Choose the branch you actually use; no specific repository name or account is baked into the site.</p>
+        <h3>Preview or edit the site</h3>
+        <div class="code-block"><div class="code-label"><span>From the project root</span></div><pre><code>php -S 127.0.0.1:8090 -t docs</code></pre></div>
+        <p>Open <code>http://127.0.0.1:8090</code>. Edit <code>docs/index.html</code> for content, <code>docs/assets/styles.css</code> for appearance, and <code>docs/assets/docs.js</code> for search and interactions. Push changes to the selected branch to update the published docs.</p>
+        <div class="end-card"><div><p class="eyebrow">READY TO BUILD?</p><h3>Start with a page people can read.</h3><p>The basic example takes you through the complete workflow.</p></div><a class="button primary" href="#quickstart">Back to quick start <span aria-hidden="true">↑</span></a></div>
+      </section>
+      <footer class="page-footer"><a class="brand" href="#overview"><img src="./assets/favicon.svg" alt="" width="24" height="24"><span>SEO Framework</span></a><p>Free and open source · <a href="https://opensource.org/license/mit">MIT License</a></p><a href="#overview">Back to top ↑</a></footer>
+    </main>
+
+    <aside class="page-outline" aria-label="Page overview"><p class="nav-label">IN THIS GUIDE</p><nav><a href="#overview" class="active">Introduction</a><a href="#quickstart">Quick start</a><a href="#integration">Integration</a><a href="#configuration">Configuration</a><a href="#pages">Pages &amp; languages</a><a href="#data">Public JSON</a><a href="#navigation">SPA navigation</a><a href="#cache">Cache &amp; refresh</a><a href="#deployment">Deployment</a><a href="#examples">Examples</a><a href="#cli">CLI reference</a><a href="#troubleshooting">Troubleshooting</a><a href="#github-pages">GitHub Pages</a></nav><div class="outline-note"><span aria-hidden="true">↳</span><p>Everything you need.<br>Nothing to install.</p></div></aside>
+  </div>
+
+  <dialog class="search-dialog" aria-labelledby="search-title">
+    <form method="dialog" class="search-header"><label id="search-title" for="docs-search">Search documentation</label><button class="search-close" aria-label="Close search">Esc <span aria-hidden="true">×</span></button></form>
+    <div class="search-input-wrap"><span aria-hidden="true">⌕</span><input id="docs-search" type="search" placeholder="Try “configuration” or “deploy”…" autocomplete="off"></div>
+    <p class="search-count" role="status" aria-live="polite"></p>
+    <div class="search-results"></div>
+    <div class="search-footer"><span>Search guides, options and commands</span><span><kbd>Esc</kbd> to close</span></div>
+  </dialog>
+  <div class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

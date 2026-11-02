@@ -1,0 +1,14 @@
+{
+  "generatedAt": 0,
+  "data": {
+    "products": [
+      {
+        "slug": "desk-lamp",
+        "name": { "en": "Desk lamp", "ar": "مصباح مكتب" },
+        "description": { "en": "An adjustable lamp for your workspace.", "ar": "مصباح قابل للتعديل لمساحة العمل." },
+        "price": 39.5,
+        "currency": "USD"
+      }
+    ]
+  }
+}
